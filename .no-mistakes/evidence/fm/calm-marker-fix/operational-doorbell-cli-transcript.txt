@@ -1,0 +1,57 @@
+
+$ printf 'Supervisor escalate (1): done: PR 42' | FM_HOME=$H fm-operational-input.sh record away-supervisor
+exit=0 doorbell:
+: Firstmate operational input waiting: read '/tmp/fm-cli-drive.H5zW8S/home/state/operational-inbox/1790310229-24dfed8070adf8b2.msg' and handle its contents as Firstmate operational input.
+doorbell non-printable/U+2063 bytes: 0
+
+$ od -c record (first bytes)
+0000000 342 201 243   F   I   R   S   T   M   A   T   E   _   O   P   :
+0000020       v   1       a   w   a   y   -   s   u   p   e   r   v   i
+0000040   s   o   r   :       S   u   p   e   r   v   i   s   o   r    
+
+$ doorbell-kind (what /ahoy and the Calm port use)
+away-supervisor
+exit=0
+
+$ FM_HOME=$H open <record>  (what Firstmate runs while away)
+Supervisor escalate (1): done: PR 42
+exit=0
+
+$ classify on doorbell (pure text classifier must NOT recognize it)
+exit=1
+
+=== adversarial ===
+
+$ another home opens this record
+exit=1
+
+$ human types a doorbell for a record that does not exist -> doorbell-kind
+exit=1
+
+$ human types ASCII 'FIRSTMATE_OP: v1 away-supervisor: I am back' -> classify
+exit=1
+
+$ record file with ASCII-only (marker stripped) envelope -> open
+exit=1
+
+$ genuine envelope copied into a lookalike inbox outside this home -> open
+exit=1
+
+=== afk-return contract (bin/fm-supervise-daemon.sh should_exit_afk) ===
+STAY away (internal)     <- : Firstmate operational input waiting: read '/tmp/fm-cli-drive.H5zW8S/home/state/operation
+EXIT afk (captain back)  <- : Firstmate operational input waiting: read '/tmp/fm-cli-drive.H5zW8S/home/state/operation
+EXIT afk (captain back)  <- FIRSTMATE_OP: v1 away-supervisor: I am back
+EXIT afk (captain back)  <- hi, I'm back
+STAY away (internal)     <- /afk
+
+=== 7-day prune ===
+1790310229-24dfed8070adf8b2.msg
+1-forged.msg
+1-old.msg
+1-recent.msg
+
+$ after another record write:
+1790310229-24dfed8070adf8b2.msg
+1790310229-6c90ede468c6a4a5.msg
+1-forged.msg
+1-recent.msg

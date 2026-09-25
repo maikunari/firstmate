@@ -1,0 +1,13 @@
+hooks module firstmate-calm@skills-dir loaded
+[13:25:26] captured 01-sailboat-working
+[13:25:36] captured 02-captain-turn-settled
+inject_msg rc=0
+1790310336-3a9e6f81c2b9f4ed.msg
+[13:25:41] captured 03-daemon-doorbell-calm-on
+[13:25:58] captured 04-forged-doorbell-calm-on
+[13:26:00] captured 05-ascii-label-calm-on
+[13:26:04] captured 06-calm-off
+config/calm after off: off
+[13:26:08] captured 07-calm-on-again
+config/calm after on: on
+[13:26:08] done
